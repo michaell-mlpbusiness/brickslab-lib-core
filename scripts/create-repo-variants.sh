@@ -91,6 +91,10 @@ write_core_lib_root_files() {
     "audit:verbose": "node tests/audit/audit-runner.js --verbose",
     "test:components": "node --test tests/components/**/*.js",
     "test:lint": "node --test tests/lint/**/*.js"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   }
 }
 JSON
@@ -101,10 +105,239 @@ packages:
 YAML
 }
 
+write_tools_readme_file() {
+  local dest="$1"
+  cat > "$dest/README.md" <<'MD'
+# brickslab-tools
+
+Plateforme outils en ligne Brickslab.
+
+## Périmètre
+
+- Theme Builder
+- Mockup Builder
+- Catalogue composants (web + mobile)
+- Templates et pages de présentation pour implémentation rapide
+
+## Stack
+
+- `apps/brickslab_catalog`
+- `packages/ui-web`
+- `packages/ui-mobile`
+- `packages/token-contract`
+- `packages/theme-default`
+
+## Commandes
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+pnpm lint
+pnpm sync:components
+```
+
+## Notes
+
+- Ce repo est orienté produit/outils.
+- Les pages tools doivent rester actives dans le catalogue:
+  - `/components/themebuilder`
+  - `/components/mockupbuilder`
+MD
+}
+
+write_lib_readme_file() {
+  local dest="$1"
+  cat > "$dest/README.md" <<'MD'
+# brickslab-lib
+
+Plateforme stagiaires Brickslab.
+
+## Périmètre
+
+- Getting started
+- Documentation
+- Catalogue composants web/mobile
+- Templates
+- Résultats de tests
+
+## Stack
+
+- `apps/brickslab_catalog`
+- `packages/ui-web`
+- `packages/ui-mobile`
+- `packages/token-contract`
+- `packages/theme-default`
+- `tests/`, `docs/`, `components_docs/`
+
+## Commandes
+
+```bash
+pnpm install
+pnpm dev
+pnpm build:catalog
+pnpm audit
+pnpm test:components
+pnpm test:lint
+pnpm sync:components
+```
+
+## Règles
+
+- Le code source des tools n'est pas embarqué:
+  - pas de page `themebuilder`
+  - pas de page `mockupbuilder`
+- Ce repo sert à apprendre, tester et améliorer la lib en contexte contrôlé.
+MD
+}
+
+write_core_lib_readme_file() {
+  local dest="$1"
+  cat > "$dest/README.md" <<'MD'
+# brickslab-lib-core
+
+Librairie pure Brickslab (sans app).
+
+## Périmètre
+
+- Développement des packages partagés:
+  - `@brickslab./ui-web`
+  - `@brickslab./ui-mobile`
+  - `@brickslab./token-contract`
+  - `@brickslab./theme-default`
+
+## Structure
+
+- `packages/*`
+- `tests/`
+- `scripts/`
+- `components_docs/`
+- `docs/`
+
+## Commandes
+
+```bash
+pnpm install
+pnpm build
+pnpm lint
+pnpm typecheck
+pnpm test:components
+pnpm test:lint
+```
+
+## Notes
+
+- Aucune app (`apps/*`) dans ce repo.
+- C'est la base qualité/fiabilité des composants.
+MD
+}
+
+write_tools_claude_file() {
+  local dest="$1"
+  cat > "$dest/CLAUDE.md" <<'MD'
+# CLAUDE.md
+
+This repository is `brickslab-tools`.
+
+## Mission
+
+- Build and maintain online tools (Theme Builder + Mockup Builder).
+- Keep catalog pages and templates usable for production implementation flows.
+- Ship UI changes with both `ui-web` and `ui-mobile` packages available in workspace.
+
+## Scope
+
+- Keep tool pages enabled:
+  - `apps/brickslab_catalog/src/app/components/themebuilder/page.tsx`
+  - `apps/brickslab_catalog/src/app/components/mockupbuilder/page.tsx`
+- Keep navigation access to tools in `src/catalog/navigation.data.ts`.
+- This repo is product/app focused (not trainee sandbox).
+
+## Commands
+
+- `pnpm install`
+- `pnpm dev`
+- `pnpm build`
+- `pnpm lint`
+- `pnpm sync:components`
+MD
+}
+
+write_lib_claude_file() {
+  local dest="$1"
+  cat > "$dest/CLAUDE.md" <<'MD'
+# CLAUDE.md
+
+This repository is `brickslab-lib` (trainee platform).
+
+## Mission
+
+- Provide learning and validation environment:
+  - Getting started
+  - Documentation
+  - Catalog web/mobile
+  - Templates
+  - Test results
+- Keep full component libraries in workspace for hands-on training.
+
+## Scope Rules
+
+- Tool source code must stay excluded:
+  - no `themebuilder` page source
+  - no `mockupbuilder` page source
+  - no `Outils` section in navigation
+- If tool access is needed, prefer external links to online tools (future option).
+
+## Commands
+
+- `pnpm install`
+- `pnpm dev`
+- `pnpm build:catalog`
+- `pnpm audit`
+- `pnpm test:components`
+- `pnpm test:lint`
+MD
+}
+
+write_core_lib_claude_file() {
+  local dest="$1"
+  cat > "$dest/CLAUDE.md" <<'MD'
+# CLAUDE.md
+
+This repository is `brickslab-lib-core` (pure library workspace).
+
+## Mission
+
+- Evolve and harden the shared packages:
+  - `@brickslab./ui-web`
+  - `@brickslab./ui-mobile`
+  - `@brickslab./token-contract`
+  - `@brickslab./theme-default`
+- Protect package quality without app-level coupling.
+
+## Scope Rules
+
+- No app workspace (`apps/*`) in this repo.
+- Focus on package API quality, type safety, tokens, and tests.
+- Keep component behavior deterministic and token-based.
+
+## Commands
+
+- `pnpm install`
+- `pnpm build`
+- `pnpm lint`
+- `pnpm typecheck`
+- `pnpm test:components`
+- `pnpm test:lint`
+MD
+}
+
 copy_tools_variant() {
   local dest="$1"
   copy_common_files "$dest"
   write_tools_root_files "$dest"
+  write_tools_readme_file "$dest"
+  write_tools_claude_file "$dest"
 
   mkdir -p "$dest/apps" "$dest/packages" "$dest/components_docs" "$dest/scripts"
   rsync -a "$ROOT_DIR/apps/brickslab_catalog" "$dest/apps/"
@@ -153,6 +386,8 @@ copy_lib_variant() {
   local dest="$1"
   copy_common_files "$dest"
   write_lib_root_files "$dest"
+  write_lib_readme_file "$dest"
+  write_lib_claude_file "$dest"
 
   mkdir -p "$dest/apps" "$dest/packages" "$dest/scripts" "$dest/tests" "$dest/components_docs" "$dest/docs"
   rsync -a "$ROOT_DIR/apps/brickslab_catalog" "$dest/apps/"
@@ -171,6 +406,8 @@ copy_core_lib_variant() {
   local dest="$1"
   copy_common_files "$dest"
   write_core_lib_root_files "$dest"
+  write_core_lib_readme_file "$dest"
+  write_core_lib_claude_file "$dest"
 
   mkdir -p "$dest/packages" "$dest/scripts" "$dest/tests" "$dest/components_docs" "$dest/docs"
   rsync -a "$ROOT_DIR/packages/ui-web" "$dest/packages/"

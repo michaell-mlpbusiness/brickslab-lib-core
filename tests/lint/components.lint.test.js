@@ -12,6 +12,7 @@ const componentsDir = path.join(
   "app",
   "components"
 );
+const isCatalogMode = fs.existsSync(componentsDir);
 
 test("components structure and lint checks", async (t) => {
   // Ensure logs directory exists
@@ -25,15 +26,17 @@ test("components structure and lint checks", async (t) => {
   // Test that all components have at least 50% lint score
   await t.test("all components should have minimum lint score", () => {
     const results = testResults.results;
+    const threshold = isCatalogMode ? 50 : 60;
     assert.ok(results.length > 0, "Should have test results");
-    assert.ok(testResults.average >= 50, `Average score ${testResults.average}% should be >= 50%`);
+    assert.ok(testResults.average >= threshold, `Average score ${testResults.average}% should be >= ${threshold}%`);
   });
 
-  // Test that most components pass (80%+)
+  // Test that most components pass checks
   await t.test("majority of components should pass checks", () => {
     const results = testResults.results;
     const passRate = (testResults.passed / results.length) * 100;
-    assert.ok(passRate >= 50, `Pass rate ${passRate}% should be >= 50%`);
+    const threshold = isCatalogMode ? 50 : 60;
+    assert.ok(passRate >= threshold, `Pass rate ${passRate}% should be >= ${threshold}%`);
   });
 
   // Test that log file was created

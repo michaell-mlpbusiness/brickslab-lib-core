@@ -13,6 +13,7 @@ const componentsDir = path.join(
   "app",
   "components"
 );
+const isCatalogMode = fs.existsSync(componentsDir);
 
 test("component presence and integrity checks", async (t) => {
   const testResults = runTests();
@@ -22,13 +23,21 @@ test("component presence and integrity checks", async (t) => {
     assert.ok(components.length > 0, "Should have components from CSV");
   });
 
-  await t.test("each component page should exist", () => {
+  await t.test("mode-specific component integrity checks", () => {
     const results = testResults.results;
-    const allExist = results.every((r) => r.checks.fileExists);
-    assert.ok(
-      testResults.passed >= testResults.results.length * 0.8,
-      "At least 80% of components should have pages"
-    );
+    assert.ok(results.length > 0, "Should have test results");
+    if (isCatalogMode) {
+      assert.ok(
+        testResults.passed >= testResults.results.length * 0.8,
+        "At least 80% of components should have pages"
+      );
+    } else {
+      assert.equal(testResults.mode, "lib-core", "Should run in lib-core mode");
+      assert.ok(
+        testResults.passed >= testResults.results.length * 0.5,
+        "At least 50% of library components should pass structure checks"
+      );
+    }
   });
 
   await t.test("test log CSV should have entries", () => {
@@ -39,9 +48,10 @@ test("component presence and integrity checks", async (t) => {
   });
 
   await t.test("average test score should be reasonable", () => {
+    const threshold = isCatalogMode ? 50 : 60;
     assert.ok(
-      testResults.average >= 50,
-      `Average score ${testResults.average}% should be >= 50%`
+      testResults.average >= threshold,
+      `Average score ${testResults.average}% should be >= ${threshold}%`
     );
   });
 });

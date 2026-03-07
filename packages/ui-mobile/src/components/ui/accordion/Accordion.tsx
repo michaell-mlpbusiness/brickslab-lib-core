@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, TouchableOpacity, Text, Animated, StyleSheet, ViewStyle } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, StyleSheet, ViewStyle, StyleProp, TextStyle } from 'react-native';
 import { AccordionProps, AccordionItemProps, AccordionVariant, AccordionSize } from './Accordion.type';
 import { tokens } from '@/tokens';
 
@@ -9,7 +9,13 @@ const sizeMap = {
   lg: { paddingVertical: 16, paddingHorizontal: 20, fontSize: tokens.fontsizeMedium },
 };
 
-const getVariantStyles = (variant: AccordionVariant) => {
+type AccordionVariantStyles = {
+  container: StyleProp<ViewStyle>;
+  item: StyleProp<ViewStyle>;
+  separator: StyleProp<ViewStyle>;
+};
+
+const getVariantStyles = (variant: AccordionVariant): AccordionVariantStyles => {
   switch (variant) {
     case 'bordered':
       return {
@@ -30,7 +36,11 @@ const getVariantStyles = (variant: AccordionVariant) => {
         separator: { borderTopWidth: 1, borderTopColor: tokens.cBorder },
       };
     default:
-      return {};
+      return {
+        container: {},
+        item: {},
+        separator: {},
+      };
   }
 };
 
@@ -46,7 +56,7 @@ export function Accordion({
     <View style={[variantStyles.container, userStyle]}>
       {React.Children.map(children, (child, index) => (
         <View key={index}>
-          {index > 0 && variantStyles.separator}
+          {index > 0 && <View style={variantStyles.separator} />}
           {child}
         </View>
       ))}
@@ -138,7 +148,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: tokens.fontsizeSm,
-    fontWeight: '500',
+    fontWeight: '500' as TextStyle['fontWeight'],
     color: tokens.colorFg,
     flex: 1,
   },

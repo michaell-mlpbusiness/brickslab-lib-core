@@ -33,6 +33,8 @@ Option: définir un dossier de sortie personnalisé:
 
 Inclus:
 
+- `CLAUDE.md` (instructions spécifiques repo tools)
+- `README.md` dédié tools
 - `apps/brickslab_catalog`
 - `packages/ui-web`
 - `packages/ui-mobile`
@@ -46,6 +48,8 @@ Inclus:
 
 Inclus:
 
+- `CLAUDE.md` (instructions spécifiques repo stagiaires)
+- `README.md` dédié stagiaires
 - `apps/brickslab_catalog`
 - `packages/ui-web`
 - `packages/ui-mobile`
@@ -67,6 +71,8 @@ Exclus automatiquement:
 
 Inclus:
 
+- `CLAUDE.md` (instructions spécifiques repo lib-core)
+- `README.md` dédié lib-core
 - `packages/ui-web`
 - `packages/ui-mobile`
 - `packages/token-contract`

@@ -11,5 +11,9 @@
     "audit:verbose": "node tests/audit/audit-runner.js --verbose",
     "test:components": "node --test tests/components/**/*.js",
     "test:lint": "node --test tests/lint/**/*.js"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   }
 }
