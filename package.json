@@ -1,0 +1,15 @@
+{
+  "name": "brickslab-lib-core",
+  "private": true,
+  "packageManager": "pnpm@10.30.0",
+  "scripts": {
+    "build": "pnpm --filter @brickslab./token-contract build && pnpm --filter @brickslab./theme-default build && pnpm --filter @brickslab./ui-web build && pnpm --filter @brickslab./ui-mobile build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "sync:components": "node scripts/sync-components.js",
+    "audit:web": "node tests/audit/audit-runner.js",
+    "audit:verbose": "node tests/audit/audit-runner.js --verbose",
+    "test:components": "node --test tests/components/**/*.js",
+    "test:lint": "node --test tests/lint/**/*.js"
+  }
+}
