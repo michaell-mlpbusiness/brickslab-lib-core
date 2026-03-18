@@ -44,5 +44,5 @@ Installation dans un projet externe (recommandé) :
 
 ```bash
 npm install --legacy-peer-deps
-npm install @brickslab./ui-web@2.1.1 @brickslab./theme-default@2.0.0 --legacy-peer-deps
+npm install @brickslab./ui-web@2.1.4 @brickslab./theme-default@2.0.1 --legacy-peer-deps
 ```
