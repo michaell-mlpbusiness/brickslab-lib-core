@@ -47,7 +47,7 @@ export function Callout({
     <View style={[styles.callout, { backgroundColor: config.bg, borderColor: config.border }, userStyle]}>
       <Text style={styles.icon}>{config.icon}</Text>
       <View style={styles.content}>
-        <Text style={[styles.title, { color: config.accent, marginBottom: children ? tokens.space1 : 0 }]}>
+        <Text style={[styles.title, { color: config.accent }]}>
           {displayTitle}
         </Text>
         {children && (
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: tokens.fontsizeSm,
     fontWeight: '600',
+    marginBottom: children ? tokens.space1 : 0,
   },
   body: {
     fontSize: tokens.fontsizeSm,

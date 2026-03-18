@@ -1,32 +1,32 @@
 import React from 'react';
-import { Text as RNText, TextStyle } from 'react-native';
+import { Text as RNText, StyleSheet, TextStyle } from 'react-native';
 import { HeadingProps } from './Heading.type';
 import { tokens } from '@/tokens';
 
-const headingConfig: Record<1 | 2 | 3 | 4 | 5 | 6, Pick<TextStyle, 'fontSize' | 'fontWeight'>> = {
+const headingConfig = {
   1: {
     fontSize: tokens.fontsize5xl,
-    fontWeight: tokens.fontweightBlack as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightBlack,
   },
   2: {
     fontSize: tokens.fontsize4xl,
-    fontWeight: tokens.fontweightExtrabold as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightExtrabold,
   },
   3: {
     fontSize: tokens.fontsize3xl,
-    fontWeight: tokens.fontweightBold as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightBold,
   },
   4: {
     fontSize: tokens.fontsize2xl,
-    fontWeight: tokens.fontweightSemibold as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightSemibold,
   },
   5: {
     fontSize: tokens.fontsizeXl,
-    fontWeight: tokens.fontweightBold as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightBold,
   },
   6: {
     fontSize: tokens.fontsizeLg,
-    fontWeight: tokens.fontweightMedium as TextStyle['fontWeight'],
+    fontWeight: tokens.fontweightMedium,
   },
 };
 
