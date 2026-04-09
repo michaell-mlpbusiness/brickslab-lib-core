@@ -71,7 +71,7 @@ export function HeroCtaSection({
   alt,
   videoPoster,
   overlayOpacity = 0.45,
-  overlayColor = "#000000",
+  overlayColor = "var(--color-black)",
   title,
   subtitle,
   ctaLabel,
@@ -84,15 +84,16 @@ export function HeroCtaSection({
   const hasMedia = bg === "video" || bg === "image";
 
   // Couleurs du texte adaptées au fond
-  const fgColor = hasMedia ? "#ffffff" : "var(--color-fg)";
-  const mutedColor = hasMedia ? "rgba(255,255,255,0.75)" : "var(--color-muted)";
+  const fgColor = hasMedia ? "var(--color-white)" : "var(--color-fg)";
+  const mutedColor = hasMedia ? "var(--color-white-alpha-75)" : "var(--color-muted)";
+  const borderColor = hasMedia ? "var(--color-white-alpha-50)" : "var(--c-border)";
 
   const primaryBase: React.CSSProperties = {
     padding: "12px 28px",
-    fontSize: 15,
+    fontSize: "var(--fontsize-sm)",
     fontWeight: 600,
     background: "var(--color-brand)",
-    color: "white",
+    color: "var(--color-white)",
     border: "none",
     borderRadius: "var(--radius-md)",
     cursor: "pointer",
@@ -100,11 +101,11 @@ export function HeroCtaSection({
 
   const secondaryBase: React.CSSProperties = {
     padding: "12px 28px",
-    fontSize: 15,
+    fontSize: "var(--fontsize-sm)",
     fontWeight: 600,
     background: "transparent",
     color: fgColor,
-    border: `1px solid ${hasMedia ? "rgba(255,255,255,0.5)" : "var(--c-border)"}`,
+    border: `1px solid ${borderColor}`,
     borderRadius: "var(--radius-md)",
     cursor: "pointer",
   };
@@ -116,6 +117,8 @@ export function HeroCtaSection({
         padding: "80px 24px",
         textAlign: align ?? "center",
         overflow: "hidden",
+        boxSizing: "border-box",
+        width: "100%",
       }}
     >
       {/* ── Couches media (conditionnelles) ── */}
@@ -173,7 +176,7 @@ export function HeroCtaSection({
                 onClick={onCtaClick}
                 style={{
                   ...primaryBase,
-                  ...(hoverEffect ? { transition: "filter 0.2s" } : {}),
+                  ...(hoverEffect ? { transition: "filter 0.2s", willChange: "filter" } : {}),
                 }}
                 {...(hoverEffect
                   ? {
@@ -195,9 +198,7 @@ export function HeroCtaSection({
                 onClick={onSecondaryClick}
                 style={{
                   ...secondaryBase,
-                  ...(hoverEffect
-                    ? { transition: "opacity 0.2s" }
-                    : {}),
+                  ...(hoverEffect ? { transition: "opacity 0.2s", willChange: "opacity" } : {}),
                 }}
                 {...(hoverEffect
                   ? {

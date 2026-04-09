@@ -5,14 +5,15 @@ const styles = `
 [data-bl-single-choice] {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
+  will-change: border-color, background-color;
 }
 /* ── Radio variant ───────────────────────────────────── */
 [data-bl-sc-radio] {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 10px 14px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   border: 1.5px solid var(--c-border);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -53,7 +54,7 @@ const styles = `
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #FBFBFB;
+  background: var(--color-bg);
 }
 [data-bl-sc-radio-text] {
   display: flex;
@@ -75,12 +76,12 @@ const styles = `
 [data-bl-single-choice][data-variant="card"] {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--space-2);
 }
 [data-bl-sc-card] {
   flex: 1;
   min-width: 120px;
-  padding: 14px 16px;
+  padding: var(--space-3) var(--space-4);
   border: 1.5px solid var(--c-border);
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -110,14 +111,14 @@ const styles = `
 [data-bl-sc-card-desc] {
   font-size: var(--fontsize-xs);
   color: var(--color-muted);
-  margin-top: 4px;
+  margin-top: var(--space-1);
 }
 /* ── Other input ─────────────────────────────────────── */
 [data-bl-sc-other] {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   border: 1.5px solid var(--c-border);
   border-radius: var(--radius-sm);
   background: var(--c-surface);
@@ -165,7 +166,7 @@ export function SingleChoice({
     return (
       <>
         <style>{styles}</style>
-        <div data-bl-single-choice data-variant="card" role="radiogroup">
+        <div data-bl-single-choice data-variant="card" role="radiogroup" style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "var(--space-2)" }}>
           {options.map((opt) => (
             <div
               key={opt.id}
@@ -214,7 +215,7 @@ export function SingleChoice({
   return (
     <>
       <style>{styles}</style>
-      <div data-bl-single-choice role="radiogroup">
+      <div data-bl-single-choice role="radiogroup" style={{ display: "flex", flexDirection: "column" }}>
         {options.map((opt) => (
           <div
             key={opt.id}
@@ -246,6 +247,15 @@ export function SingleChoice({
             data-bl-sc-other
             data-selected={isOtherSelected ? "" : undefined}
             onClick={() => !disabled && select(OTHER_ID)}
+            role="button"
+            tabIndex={disabled ? -1 : 0}
+            onKeyDown={(e) => {
+              if ((e.key === "Enter" || e.key === " ") && !disabled) {
+                e.preventDefault();
+                select(OTHER_ID);
+              }
+            }}
+            aria-label={otherLabel}
           >
             <div data-bl-sc-radio-dot>
               {isOtherSelected && <div data-bl-sc-radio-dot-inner />}
@@ -255,6 +265,7 @@ export function SingleChoice({
               placeholder={otherLabel}
               value={otherText}
               disabled={disabled}
+              aria-label={otherLabel}
               onClick={(e) => {
                 e.stopPropagation();
                 !disabled && select(OTHER_ID);

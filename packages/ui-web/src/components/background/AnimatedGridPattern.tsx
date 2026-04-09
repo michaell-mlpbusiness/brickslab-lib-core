@@ -53,6 +53,7 @@ export function AnimatedGridPattern({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
         background: "linear-gradient(160deg, var(--c-surface), var(--c-surface-elevated))",
       }}
     >

@@ -1,18 +1,17 @@
 import React from "react";
 import { BentoCardProps } from "./BentoCard.type";
-import { BentoGridContext } from "../../layout/bento_grid/BentoGrid";
 
 const hoverStyles = `
-  [data-bl-bento-card] { transition: all 0.3s ease; }
+  [data-bl-bento-card] { transition: all 0.3s ease; will-change: transform; }
   [data-bl-bento-card][data-hover="lift"]:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); }
-  [data-bl-bento-card][data-hover="glow"]:hover:not(:disabled) { box-shadow: 0 0 20px rgba(var(--color-brand-rgb, 0, 0, 0), 0.3); }
+  [data-bl-bento-card][data-hover="glow"]:hover:not(:disabled) { box-shadow: 0 0 20px rgba(var(--color-brand-rgb), 0.3); }
 `;
 
 function resolveReducedMotion(
   prop: "auto" | "always" | "never" | undefined,
-  fromContext: boolean,
+  fromProps: boolean,
 ): boolean {
-  if (prop === undefined) return fromContext;
+  if (prop === undefined) return fromProps;
   if (prop === "always") return true;
   if (prop === "never") return false;
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,9 +35,9 @@ export function BentoCard({
   reducedMotion,
   colSpan,
   rowSpan,
+  isReducedMotion = false,
 }: BentoCardProps) {
-  const ctx = React.useContext(BentoGridContext);
-  const shouldReduceMotion = resolveReducedMotion(reducedMotion, ctx.reducedMotion);
+  const shouldReduceMotion = resolveReducedMotion(reducedMotion, isReducedMotion);
   const effectiveHoverEffect = shouldReduceMotion ? "none" : hoverEffect;
 
   const Tag = href ? "a" : Component;

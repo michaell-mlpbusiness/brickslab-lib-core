@@ -80,6 +80,7 @@ export function RippleBackground({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
         background:
           "radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--c-surface-elevated) 74%, transparent), transparent 60%), linear-gradient(170deg, var(--c-surface) 0%, var(--c-surface-elevated) 100%)",
       }}
@@ -102,12 +103,13 @@ export function RippleBackground({
                 top: `${centerY}%`,
                 width: `${safeAmplitude * (1 + layerIndex * 0.14)}px`,
                 height: `${safeAmplitude * (1 + layerIndex * 0.14)}px`,
-                borderRadius: "50%",
+                borderRadius: "var(--radius-full, 50%)",
                 transform: "translate(-50%, -50%)",
                 border: `1px solid ${alphaColor(accent, alpha)}`,
                 boxShadow: `0 0 ${12 + layerIndex * 6}px ${alphaColor(accent, alpha * 0.6)}`,
                 pointerEvents: "none",
                 mixBlendMode: blendMode,
+                willChange: "transform, opacity",
                 zIndex: layerIndex + 1,
                 animation: reduced
                   ? undefined
@@ -127,7 +129,7 @@ export function RippleBackground({
           top: `${centerY}%`,
           width: "46%",
           height: "46%",
-          borderRadius: "50%",
+          borderRadius: "var(--radius-full, 50%)",
           transform: "translate(-50%, -50%)",
           background: `radial-gradient(circle, ${alphaColor("#CC4A48", 0.24)}, ${alphaColor(
             "#4ADE80",
@@ -136,6 +138,7 @@ export function RippleBackground({
           filter: "blur(26px)",
           pointerEvents: "none",
           mixBlendMode: blendMode,
+          willChange: "transform, opacity",
           zIndex: layers + 2,
           animation: reduced ? undefined : `bl-ripple-pulse ${8 / safeSpeed}s ease-in-out infinite`,
         }}

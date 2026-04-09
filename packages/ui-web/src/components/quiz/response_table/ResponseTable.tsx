@@ -133,7 +133,7 @@ const styles = `
 [data-bl-rt-page-btn][data-active] {
   border-color: var(--color-brand);
   background: var(--color-brand);
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 [data-bl-rt-page-btn]:disabled {
   opacity: 0.4;
@@ -194,6 +194,7 @@ export function ResponseTable({
                 data-bl-rt-filter
                 type="text"
                 placeholder={`Filter ${f.label}…`}
+                aria-label={`Filter ${f.label}`}
                 value={filterValues[f.id] ?? ""}
                 onChange={(e) =>
                   setFilterValues((v) => ({ ...v, [f.id]: e.target.value }))

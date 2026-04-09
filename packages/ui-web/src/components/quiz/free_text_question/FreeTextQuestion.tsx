@@ -19,6 +19,7 @@ const styles = `
   font-family: inherit;
   box-sizing: border-box;
   transition: border-color 0.15s ease;
+  will-change: border-color;
   outline: none;
 }
 [data-bl-ft-input]:focus,
@@ -45,10 +46,10 @@ const styles = `
   color: var(--color-muted);
 }
 [data-bl-ft-count][data-warn] {
-  color: #F59E0B;
+  color: var(--color-warning, #F59E0B);
 }
 [data-bl-ft-count][data-over] {
-  color: #CC4A48;
+  color: var(--color-error, #CC4A48);
 }
 `;
 
@@ -75,6 +76,7 @@ export function FreeTextQuestion({
             data-bl-ft-textarea
             value={value}
             placeholder={placeholder}
+            aria-label={placeholder || "Answer"}
             disabled={disabled}
             maxLength={maxLength}
             onChange={(e) => onChange(e.target.value)}
@@ -85,6 +87,7 @@ export function FreeTextQuestion({
             type="text"
             value={value}
             placeholder={placeholder}
+            aria-label={placeholder || "Answer"}
             disabled={disabled}
             maxLength={maxLength}
             onChange={(e) => onChange(e.target.value)}

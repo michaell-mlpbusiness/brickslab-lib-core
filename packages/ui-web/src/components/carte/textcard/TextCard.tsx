@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "../../typographie/text/Text";
-import { TextCardProps } from "./Textcard.type";
+import { TextCardProps } from "./TextCard.type";
 
 export function TextCard({
   cardtitle,

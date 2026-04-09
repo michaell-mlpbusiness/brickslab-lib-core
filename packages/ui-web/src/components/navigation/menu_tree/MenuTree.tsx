@@ -27,6 +27,7 @@ function MenuTreeNode({
             fontWeight: isActive ? "var(--fontweight-semibold)" : "var(--fontweight-normal)",
             textDecoration: "none",
             transition: "color 0.15s",
+            willChange: "color",
           }}
         >
           {item.label}
@@ -47,8 +48,8 @@ function MenuTreeNode({
         </span>
       )}
       {item.children && item.children.length > 0 && (
-        <div>
-          {item.children.map((child, index) => (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {item.children?.map((child, index) => (
             <MenuTreeNode
               key={`${child.label}-${index}`}
               item={child}
@@ -64,8 +65,8 @@ function MenuTreeNode({
 
 export function MenuTree({ items, activePath, level = 0 }: MenuTreeProps) {
   return (
-    <div>
-      {items.map((item, index) => (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {items?.map((item, index) => (
         <MenuTreeNode
           key={`${item.label}-${index}`}
           item={item}

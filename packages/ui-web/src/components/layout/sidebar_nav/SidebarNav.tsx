@@ -5,6 +5,8 @@ export function SidebarNav({ sections, activePath, width }: SidebarNavProps) {
   return (
     <aside
       style={{
+        display: "flex",
+        flexDirection: "column",
         width: width ?? 232,
         backgroundColor: "var(--c-surface)",
         borderRight: "1px solid var(--c-border)",
@@ -14,7 +16,7 @@ export function SidebarNav({ sections, activePath, width }: SidebarNavProps) {
         boxSizing: "border-box",
       }}
     >
-      {sections.map((section) => (
+      {sections?.map((section) => (
         <div key={section.title} style={{ marginBottom: "var(--space-6)" }}>
           <div
             style={{
@@ -29,7 +31,7 @@ export function SidebarNav({ sections, activePath, width }: SidebarNavProps) {
           >
             {section.title}
           </div>
-          {section.items.map((item) => {
+          {section.items?.map((item) => {
             const isActive = item.href === activePath;
             return (
               <a
@@ -40,13 +42,14 @@ export function SidebarNav({ sections, activePath, width }: SidebarNavProps) {
                   padding: "var(--space-2) var(--space-5)",
                   fontSize: "var(--fontsize-sm)",
                   fontWeight: isActive ? "var(--fontweight-semibold)" : "var(--fontweight-normal)",
-                  color: isActive ? "#FBFBFB" : "var(--color-muted)",
+                  color: isActive ? "var(--c-surface, #FBFBFB)" : "var(--color-muted)",
                   borderLeft: isActive
-                    ? "2px solid #CC4A48"
+                    ? "2px solid var(--color-brand, #CC4A48)"
                     : "2px solid transparent",
                   backgroundColor: isActive ? "var(--c-brand-subtle)" : "transparent",
                   textDecoration: "none",
                   transition: "background 0.15s, color 0.15s",
+                  willChange: "background, color",
                   boxSizing: "border-box",
                 }}
               >

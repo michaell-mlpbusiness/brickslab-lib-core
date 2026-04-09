@@ -11,7 +11,7 @@ export function MediaCarousel({
   const currentItem = items[currentIndex];
 
   const buttonStyle: React.CSSProperties = {
-    background: "rgba(0,0,0,0.5)",
+    background: "var(--c-overlay, rgba(0,0,0,0.5))",
     color: "white",
     border: "none",
     borderRadius: "var(--radius-sm)",
@@ -26,7 +26,7 @@ export function MediaCarousel({
         <img
           src={currentItem.src}
           alt={currentItem.alt}
-          style={{ width: "100%", objectFit: "cover", display: "block" }}
+          style={{ width: "100%", objectFit: "cover", display: "block", boxSizing: "border-box" }}
         />
       )}
       <button
@@ -82,7 +82,7 @@ export function MediaCarousel({
               style={{
                 width: 8,
                 height: 8,
-                borderRadius: "50%",
+                borderRadius: "var(--radius-full)",
                 background: index === currentIndex ? "var(--color-brand)" : "var(--c-border)",
               }}
             />

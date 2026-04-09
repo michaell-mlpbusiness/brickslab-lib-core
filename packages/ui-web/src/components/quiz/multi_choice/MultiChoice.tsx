@@ -19,6 +19,7 @@ const styles = `
   background: var(--c-surface);
   user-select: none;
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: border-color, background;
 }
 [data-bl-mc-checkbox]:hover:not([data-disabled]) {
   border-color: var(--color-brand);
@@ -43,13 +44,14 @@ const styles = `
   align-items: center;
   justify-content: center;
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: border-color, background;
 }
 [data-bl-mc-checkbox][data-selected] [data-bl-mc-box] {
   border-color: var(--color-brand);
   background: var(--color-brand);
 }
 [data-bl-mc-check] {
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 [data-bl-mc-checkbox-label] {
   font-size: var(--fontsize-sm);
@@ -73,6 +75,7 @@ const styles = `
   user-select: none;
   background: var(--c-surface);
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  will-change: border-color, background, color;
 }
 [data-bl-mc-tag]:hover:not([data-disabled]) {
   border-color: var(--color-brand);
@@ -81,7 +84,7 @@ const styles = `
 [data-bl-mc-tag][data-selected] {
   border-color: var(--color-brand);
   background: var(--color-brand);
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 [data-bl-mc-tag][data-disabled] {
   opacity: 0.45;
@@ -143,7 +146,7 @@ export function MultiChoice({
             );
           })}
           {maxSelected && (
-            <div data-bl-mc-limit style={{ width: "100%" }}>
+            <div data-bl-mc-limit style={{ width: "100%", boxSizing: "border-box" }}>
               {value.length}/{maxSelected} selected
             </div>
           )}

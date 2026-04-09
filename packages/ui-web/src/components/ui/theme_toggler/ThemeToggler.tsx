@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useRef, useState, useEffect } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { ThemeTogglerProps } from "./ThemeToggler.type";
@@ -97,7 +95,7 @@ export function ThemeToggler({
     overlay.className = "bl-theme-ripple-overlay";
     overlay.style.setProperty("--bl-rx", `${x}px`);
     overlay.style.setProperty("--bl-ry", `${y}px`);
-    overlay.style.background = nextMode === "dark" ? "#0d0d0d" : "#ffffff";
+    overlay.style.background = nextMode === "dark" ? "var(--c-surface-dark)" : "var(--c-surface-light)";
     document.body.appendChild(overlay);
 
     // Apply theme when overlay covers the page (~75% of animation)
@@ -132,6 +130,7 @@ export function ThemeToggler({
           color: "var(--color-fg)",
           borderRadius: "var(--radius-md)",
           transition: `color ${duration}ms ease, transform 0.2s ease`,
+          willChange: "transform, color",
         }}
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.15)";

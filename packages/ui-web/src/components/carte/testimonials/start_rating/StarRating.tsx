@@ -1,10 +1,5 @@
 import React from "react";
-
-export interface StarRatingProps {
-  value: number;
-  max?: number;
-  size?: number;
-}
+import type { StarRatingProps } from "./StarRating.type";
 
 const STAR_PATH =
   "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z";
@@ -46,7 +41,7 @@ export function StarRating({ value, max = 5, size = 14 }: StarRatingProps) {
                   <stop offset="50%" stopColor="var(--color-brand)" />
                   <stop
                     offset="50%"
-                    stopColor="var(--color-surface-empty, #d1d5db)"
+                    stopColor="var(--color-surface-empty)"
                   />
                 </linearGradient>
               </defs>
@@ -58,12 +53,12 @@ export function StarRating({ value, max = 5, size = 14 }: StarRatingProps) {
                   ? "var(--color-brand)"
                   : half
                   ? `url(#${gradientId})`
-                  : "var(--color-surface-empty, #d1d5db)"
+                  : "var(--color-surface-empty)"
               }
               stroke={
                 filled || half
                   ? "var(--color-brand)"
-                  : "var(--color-surface-border, #e5e7eb)"
+                  : "var(--color-surface-border)"
               }
               strokeWidth={0.75}
               strokeLinejoin="round"

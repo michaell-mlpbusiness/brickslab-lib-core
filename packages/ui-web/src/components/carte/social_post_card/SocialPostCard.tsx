@@ -4,11 +4,12 @@ import { SocialPostCardProps } from "./SocialPostCard.type";
 const cardStyles = `
   [data-bl-social-card] {
     transition: all 0.3s ease;
+    will-change: transform;
   }
   [data-bl-social-card][data-variant="glass"] {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--c-glass-bg, rgba(255, 255, 255, 0.1));
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--c-glass-border, rgba(255, 255, 255, 0.2));
   }
   [data-bl-social-card][data-variant="solid"] {
     background: var(--c-surface);
@@ -75,8 +76,9 @@ export function SocialPostCard({
               style={{
                 width: "40px",
                 height: "40px",
-                borderRadius: "50%",
+                borderRadius: "var(--radius-full, 50%)",
                 objectFit: "cover",
+                boxSizing: "border-box",
               }}
             />
           )}
@@ -135,13 +137,13 @@ export function SocialPostCard({
                   <img
                     src={m.src}
                     alt={m.alt || "Media"}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", boxSizing: "border-box" }}
                   />
                 )}
                 {m.type === "video" && (
                   <video
                     src={m.src}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", boxSizing: "border-box" }}
                     controls
                   />
                 )}

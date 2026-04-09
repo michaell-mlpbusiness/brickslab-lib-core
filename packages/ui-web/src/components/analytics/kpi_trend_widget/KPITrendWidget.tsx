@@ -11,7 +11,9 @@ const styles = `
   border: 1.5px solid var(--c-border);
   border-radius: var(--radius-md);
   background: var(--c-surface);
+  box-sizing: border-box;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  will-change: border-color, box-shadow;
 }
 [data-bl-kpi-widget]:hover {
   border-color: var(--c-brand-border);
@@ -93,7 +95,9 @@ const styles = `
   height: 100%;
   border-radius: 2px;
   background: var(--color-brand);
-  transition: width 0.3s ease;
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  will-change: transform;
 }
 [data-bl-kpi-skeleton] {
   background: linear-gradient(90deg, var(--c-surface-elevated) 25%, var(--c-border) 50%, var(--c-surface-elevated) 75%);
@@ -176,7 +180,7 @@ export function KPITrendWidget({
         {loading ? (
           <>
             <div data-bl-kpi-skeleton style={{ height: 30, width: "60%" }} />
-            <div data-bl-kpi-skeleton style={{ height: 36, width: "100%" }} />
+            <div data-bl-kpi-skeleton style={{ height: 36, width: "100%", boxSizing: "border-box" }} />
           </>
         ) : (
           <>
@@ -200,7 +204,7 @@ export function KPITrendWidget({
 
             {targetPct !== undefined && (
               <div data-bl-kpi-target-bar>
-                <div data-bl-kpi-target-fill style={{ width: `${targetPct}%` }} />
+                <div data-bl-kpi-target-fill style={{ transform: `scaleX(${targetPct / 100})` }} />
               </div>
             )}
           </>

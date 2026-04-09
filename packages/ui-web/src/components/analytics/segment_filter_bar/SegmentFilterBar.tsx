@@ -73,7 +73,7 @@ const styles = `
 [data-bl-sfb-preset][data-active] {
   border-color: var(--color-brand);
   background: var(--color-brand);
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 [data-bl-sfb-clear] {
   padding: 5px 10px;
@@ -87,7 +87,7 @@ const styles = `
   margin-left: auto;
 }
 [data-bl-sfb-clear]:hover {
-  color: #CC4A48;
+  color: var(--color-error, #CC4A48);
 }
 [data-bl-sfb-tags] {
   display: flex;
@@ -113,7 +113,7 @@ const styles = `
 [data-bl-sfb-tag][data-selected] {
   border-color: var(--color-brand);
   background: var(--color-brand);
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 `;
 
@@ -140,6 +140,7 @@ export function SegmentFilterBar({ value, onChange, fields, presets }: SegmentFi
               {field.type === "select" && (
                 <select
                   data-bl-sfb-select
+                  aria-label={`Filter by ${field.label}`}
                   value={(value[field.id] as string) ?? ""}
                   onChange={(e) => onChange({ ...value, [field.id]: e.target.value || null })}
                 >
@@ -154,6 +155,7 @@ export function SegmentFilterBar({ value, onChange, fields, presets }: SegmentFi
                   data-bl-sfb-input
                   type={field.type === "date" ? "date" : "text"}
                   placeholder={field.type === "text" ? `Filter ${field.label}…` : undefined}
+                  aria-label={`Filter by ${field.label}`}
                   value={(value[field.id] as string) ?? ""}
                   onChange={(e) => onChange({ ...value, [field.id]: e.target.value || null })}
                 />

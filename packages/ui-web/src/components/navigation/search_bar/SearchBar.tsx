@@ -26,6 +26,7 @@ export function SearchBar({ value, onChange, placeholder, onSubmit, onClear, ele
           transform: "translateY(-50%)",
           color: "var(--color-muted)",
           pointerEvents: "none",
+          willChange: "transform",
         }}
       >
         <circle cx="11" cy="11" r="8" />
@@ -33,13 +34,14 @@ export function SearchBar({ value, onChange, placeholder, onSubmit, onClear, ele
       </svg>
       <input
         type="search"
+        aria-label={placeholder || "Rechercher"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         style={{
           width: "100%",
           padding: "10px 40px 10px 40px",
-          fontSize: 14,
+          fontSize: "var(--fontsize-sm)",
           background: isGlass
             ? "color-mix(in srgb, var(--c-surface) 55%, transparent)"
             : elevated
@@ -83,9 +85,10 @@ export function SearchBar({ value, onChange, placeholder, onSubmit, onClear, ele
             border: "none",
             cursor: "pointer",
             color: "var(--color-muted)",
-            fontSize: 16,
+            fontSize: "var(--fontsize-base)",
             lineHeight: 1,
             padding: "2px 4px",
+            willChange: "transform",
           }}
         >
           ✕

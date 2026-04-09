@@ -7,12 +7,13 @@ export function TopNav({ items, activePath }: TopNavProps) {
       <ul
         style={{
           display: "flex",
-          gap: 24,
+          gap: "var(--space-6, 24px)",
           listStyle: "none",
           padding: 0,
           margin: 0,
-          fontSize: 14,
+          fontSize: "var(--fontsize-sm, 14px)",
           alignItems: "center",
+          boxSizing: "border-box",
         }}
       >
         {items.map((item) => {
@@ -23,10 +24,10 @@ export function TopNav({ items, activePath }: TopNavProps) {
                 href={item.href}
                 style={{
                   color: isActive ? "var(--color-brand)" : "var(--color-muted)",
-                  fontWeight: isActive ? 600 : 400,
+                  fontWeight: isActive ? "var(--fontweight-semibold, 600)" : "var(--fontweight-normal, 400)",
                   borderBottom: isActive ? "2px solid var(--color-brand)" : "2px solid transparent",
                   textDecoration: "none",
-                  paddingBottom: 2,
+                  paddingBottom: "var(--space-1, 2px)",
                   transition: "color 0.15s",
                 }}
               >

@@ -31,7 +31,7 @@ export function LightRaysBackground({
   speed = 1,
   blur = 8,
   opacity = 0.3,
-  color = "rgba(255,255,255,1)",
+  color = "var(--c-white, rgba(255,255,255,1))",
   quality = "high",
   mask = "none",
   interactive = false,
@@ -75,6 +75,7 @@ export function LightRaysBackground({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
         background:
           "radial-gradient(circle at 50% -10%, color-mix(in srgb, var(--c-surface-elevated) 64%, transparent), transparent 60%), linear-gradient(180deg, var(--c-surface) 0%, color-mix(in srgb, var(--c-surface-elevated) 70%, var(--c-surface)) 100%)",
       }}
@@ -105,6 +106,7 @@ export function LightRaysBackground({
                 filter: `blur(${safeBlur * (1 + layerIndex * 0.18)}px)`,
                 mixBlendMode: blendMode,
                 pointerEvents: "none",
+                willChange: "transform, opacity",
                 zIndex: layerIndex + 1,
                 animation: reduced
                   ? undefined
@@ -128,6 +130,7 @@ export function LightRaysBackground({
           filter: `blur(${safeBlur * 1.4}px)`,
           mixBlendMode: blendMode,
           pointerEvents: "none",
+          willChange: "transform, opacity",
           zIndex: layers + 1,
           animation: reduced ? undefined : `bl-ray-bloom ${8 / safeSpeed}s ease-in-out infinite`,
         }}

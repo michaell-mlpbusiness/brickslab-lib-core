@@ -6,6 +6,7 @@ const styles = `
   display: flex;
   flex-direction: column;
   gap: 12px;
+  will-change: transform;
 }
 [data-bl-ct-header] {
   display: flex;
@@ -24,6 +25,7 @@ const styles = `
 [data-bl-ct-svg] {
   width: 100%;
   overflow: visible;
+  will-change: transform;
 }
 [data-bl-ct-legend] {
   display: flex;
@@ -45,8 +47,14 @@ const styles = `
 }
 [data-bl-ct-axis-label] {
   font-size: 9px;
-  fill: var(--color-muted, #888);
+  fill: var(--color-muted);
   font-family: inherit;
+}
+[data-bl-ct-polyline] {
+  will-change: transform;
+}
+[data-bl-ct-point] {
+  will-change: transform;
 }
 `;
 
@@ -54,9 +62,9 @@ const LINE_PALETTE = [
   "#CC4A48",
   "#4ADE80",
   "#F59E0B",
-  "#60A5FA",
-  "#A78BFA",
-  "#F472B6",
+  "var(--c-cohort-4)",
+  "var(--c-cohort-5)",
+  "var(--c-cohort-6)",
 ];
 
 const W = 400;
@@ -64,15 +72,15 @@ const H = 160;
 const PAD = { top: 10, right: 10, bottom: 30, left: 36 };
 
 export function CohortTrends({ series, metric, granularity = "day" }: CohortTrendsProps) {
-  if (!series.length) return null;
+  if (!series?.length) return null;
 
   // Collect all x labels across series
   const allX = Array.from(
-    new Set(series.flatMap((s) => s.points.map((p) => String(p.x))))
+    new Set(series?.flatMap((s) => s?.points?.map((p) => String(p.x)) ?? []) ?? [])
   );
-  const allY = series.flatMap((s) => s.points.map((p) => p.y));
-  const minY = Math.min(...allY, 0);
-  const maxY = Math.max(...allY, 1);
+  const allY = series?.flatMap((s) => s?.points?.map((p) => p.y) ?? []) ?? [];
+  const minY = allY.length ? Math.min(...allY, 0) : 0;
+  const maxY = allY.length ? Math.max(...allY, 1) : 1;
 
   const chartW = W - PAD.left - PAD.right;
   const chartH = H - PAD.top - PAD.bottom;
@@ -103,12 +111,12 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
           aria-label={`${metric} cohort trends`}
         >
           {/* Y grid lines */}
-          {yTicks.map((tick, i) => (
+          {yTicks?.map((tick, i) => (
             <g key={i}>
               <line
                 x1={PAD.left} y1={yScale(tick)}
                 x2={W - PAD.right} y2={yScale(tick)}
-                stroke="var(--c-border, #e2e8f0)"
+                stroke="var(--c-border)"
                 strokeWidth="1"
                 strokeDasharray={i === 0 ? "none" : "3 3"}
               />
@@ -124,7 +132,7 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
           ))}
 
           {/* X labels */}
-          {xTickIdxs.map((xi) => (
+          {xTickIdxs?.map((xi) => (
             <text
               key={xi}
               data-bl-ct-axis-label
@@ -137,14 +145,14 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
           ))}
 
           {/* Lines */}
-          {series.map((s, si) => {
+          {series?.map((s, si) => {
             const color = LINE_PALETTE[si % LINE_PALETTE.length];
-            const pts = s.points.map((p) => {
+            const pts = s?.points?.map((p) => {
               const xi = allX.indexOf(String(p.x));
               return `${xScale(xi)},${yScale(p.y)}`;
-            });
+            }) ?? [];
             return (
-              <g key={s.name}>
+              <g key={s?.name}>
                 <polyline
                   points={pts.join(" ")}
                   fill="none"
@@ -152,8 +160,9 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  data-bl-ct-polyline
                 />
-                {s.points.map((p, pi) => {
+                {s?.points?.map((p, pi) => {
                   const xi = allX.indexOf(String(p.x));
                   return (
                     <circle
@@ -162,10 +171,11 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
                       cy={yScale(p.y)}
                       r="3"
                       fill={color}
-                      stroke="var(--c-surface, #fff)"
+                      stroke="var(--c-surface)"
                       strokeWidth="1.5"
+                      data-bl-ct-point
                     >
-                      <title>{`${s.name}: ${p.y} (${p.x})`}</title>
+                      <title>{`${s?.name}: ${p.y} (${p.x})`}</title>
                     </circle>
                   );
                 })}
@@ -175,11 +185,11 @@ export function CohortTrends({ series, metric, granularity = "day" }: CohortTren
         </svg>
 
         {series.length > 1 && (
-          <div data-bl-ct-legend>
-            {series.map((s, si) => (
-              <div key={s.name} data-bl-ct-legend-item>
+          <div data-bl-ct-legend style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {series?.map((s, si) => (
+              <div key={s?.name} data-bl-ct-legend-item>
                 <div data-bl-ct-legend-line style={{ background: LINE_PALETTE[si % LINE_PALETTE.length] }} />
-                {s.name}
+                {s?.name}
               </div>
             ))}
           </div>

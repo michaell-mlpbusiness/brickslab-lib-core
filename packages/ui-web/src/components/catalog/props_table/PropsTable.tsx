@@ -409,7 +409,7 @@ export function PropsTable({
           borderRadius: "var(--radius-md)",
         }}
       >
-        <table style={{ width: "100%", minWidth: 600, borderCollapse: "collapse" }}>
+        <table style={{ width: "100%", minWidth: 600, borderCollapse: "collapse", boxSizing: "border-box" }}>
           <thead style={{ backgroundColor: "var(--c-surface)" }}>
             <tr>
               <th style={{ ...th, minWidth: 100 }}>Prop</th>

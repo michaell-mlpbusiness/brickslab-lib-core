@@ -38,6 +38,7 @@ const rendererStyles = `
   color: var(--color-fg);
   background: var(--c-surface);
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: border-color, background;
   user-select: none;
 }
 [data-bl-qr-option]:hover:not([data-disabled]) {
@@ -77,6 +78,7 @@ const rendererStyles = `
   color: var(--color-fg);
   background: var(--c-surface);
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: border-color, background;
 }
 [data-bl-qr-step]:hover:not([data-disabled]) {
   border-color: var(--color-brand);
@@ -85,7 +87,7 @@ const rendererStyles = `
 [data-bl-qr-step][data-selected] {
   border-color: var(--color-brand);
   background: var(--color-brand);
-  color: #FBFBFB;
+  color: var(--c-surface, #FBFBFB);
 }
 [data-bl-qr-textarea] {
   width: 100%;
@@ -300,6 +302,7 @@ function TextRenderer({
         maxLength={maxLength}
         disabled={disabled}
         placeholder={placeholder}
+        aria-label={placeholder || "Your answer"}
         onChange={(e) => onChange(e.target.value)}
       />
     );
@@ -312,6 +315,7 @@ function TextRenderer({
       maxLength={maxLength}
       disabled={disabled}
       placeholder={placeholder}
+      aria-label={placeholder || "Your answer"}
       onChange={(e) => onChange(e.target.value)}
     />
   );

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { RetroGridProps } from "./RetroGrid.type";
 import {
@@ -7,7 +5,6 @@ import {
   clamp01,
   qualityLayers,
   qualityWeight,
-  useReducedMotionPreference,
 } from "./background.shared";
 
 const retroGridKeyframes = `
@@ -34,13 +31,14 @@ export function RetroGrid({
   theme = "auto",
   reducedMotion = "auto",
 }: RetroGridProps) {
-  const reduced = useReducedMotionPreference(reducedMotion);
   const safePerspective = Math.max(300, perspective);
   const safeLine = Math.max(0.5, lineThickness);
   const safeSpeed = Math.max(0.35, speed);
   const safeIntensity = clamp01(intensity);
   const layers = qualityLayers(quality, 3, 2, 1);
   const q = qualityWeight(quality);
+
+  const reduced = reducedMotion === "always" || (reducedMotion === "auto" && typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
 
   return (
     <div
@@ -50,8 +48,10 @@ export function RetroGrid({
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        background: "radial-gradient(circle at 50% 68%, #130C21 0%, #080A11 44%, #020205 100%)",
+        boxSizing: "border-box",
+        background: "radial-gradient(circle at 50% 68%, var(--color-neutral-900, #1a1a2e) 0%, var(--color-neutral-950, #0f0f1a) 44%, var(--color-black, #05050a) 100%)",
         perspective: `${safePerspective}px`,
+        display: "flex",
       }}
     >
       <style>{retroGridKeyframes}</style>
@@ -64,12 +64,13 @@ export function RetroGrid({
           width: "58%",
           height: "58%",
           transform: "translate(-50%, -50%)",
-          borderRadius: "50%",
+          borderRadius: "var(--radius-full, 9999px)",
           pointerEvents: "none",
           background: `radial-gradient(circle, ${alphaColor(color, safeIntensity * 0.45)}, transparent 70%)`,
           filter: "blur(18px)",
           mixBlendMode: theme === "light" ? "multiply" : "screen",
           zIndex: 1,
+          willChange: "transform",
           animation: reduced ? undefined : `bl-retro-bloom ${7 / safeSpeed}s ease-in-out infinite`,
         }}
       />
@@ -97,6 +98,7 @@ export function RetroGrid({
               backgroundSize: `${spacing}px ${spacing}px`,
               filter: glow ? `drop-shadow(0 0 ${4 + index * 4}px ${alphaColor(color, 0.7)})` : "none",
               zIndex: 2 + index,
+              willChange: "transform",
               animation: reduced ? undefined : `bl-retro-scan ${(8 + index * 1.4) / safeSpeed}s linear infinite`,
               ["--travel" as string]: `${spacing * 2}px`,
               ["--o1" as string]: `${planeOpacity * 0.85}`,
@@ -115,6 +117,7 @@ export function RetroGrid({
             background: `radial-gradient(ellipse at 50% 62%, ${alphaColor(color, 0.18)}, transparent 60%)`,
             mixBlendMode: theme === "light" ? "multiply" : "screen",
             zIndex: layers + 3,
+            willChange: "transform",
             animation: reduced ? undefined : `bl-retro-bloom ${6 / safeSpeed}s ease-in-out infinite`,
           }}
         />

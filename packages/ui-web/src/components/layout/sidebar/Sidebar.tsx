@@ -15,22 +15,25 @@ export function Sidebar({
         left: 0,
         bottom: 0,
         width,
+        maxWidth: "100%",
         backgroundColor: "var(--c-surface)",
         borderRight: "1px solid var(--c-border)",
         overflowY: "auto",
-        padding: "28px 0",
+        padding: "var(--space-7) 0",
         boxSizing: "border-box",
         zIndex: 50,
+        willChange: "background-color",
       }}
     >
+      <nav style={{ display: "flex", flexDirection: "column" }}>
       {sections.map(({ title, items }) => (
         <div key={title} style={{ marginBottom: "var(--space-4)" }}>
           <p
             style={{
-              padding: "0 20px",
+              padding: "0 var(--space-5)",
               marginBottom: "var(--space-1)",
               marginTop: 0,
-              fontSize: "12px",
+              fontSize: "var(--fontsize-xs)",
               fontWeight: 600,
               color: "var(--color-muted)",
               textTransform: "uppercase",
@@ -48,8 +51,8 @@ export function Sidebar({
                     href={href}
                     style={{
                       display: "block",
-                      padding: "10px 20px",
-                      fontSize: "14px",
+                      padding: "var(--space-2) var(--space-5)",
+                      fontSize: "var(--fontsize-sm)",
                       color: isActive ? "var(--color-brand)" : "var(--color-fg)",
                       textDecoration: "none",
                       transition: "background-color 0.2s, color 0.2s",
@@ -75,6 +78,7 @@ export function Sidebar({
           </ul>
         </div>
       ))}
+      </nav>
     </aside>
   );
 }

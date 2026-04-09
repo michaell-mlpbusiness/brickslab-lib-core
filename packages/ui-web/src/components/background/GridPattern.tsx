@@ -26,15 +26,15 @@ export function GridPattern({
 
   const contrastBackground =
     contrastMode === "black-on-white"
-      ? "#FFFFFF"
+      ? "var(--c-surface, white)"
       : contrastMode === "white-on-black"
-      ? "#0A0A0A"
+      ? "var(--c-surface-elevated, black)"
       : null;
   const contrastLineColor =
     contrastMode === "black-on-white"
-      ? "#111111"
+      ? "var(--color-fg, black)"
       : contrastMode === "white-on-black"
-      ? "#FFFFFF"
+      ? "var(--c-surface, white)"
       : color;
   const isSimpleContrast = contrastMode !== "custom";
   const resolvedLineColor = alphaColor(contrastLineColor, safeOpacity);
@@ -51,6 +51,8 @@ export function GridPattern({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
+        display: "flex",
         background:
           contrastBackground ??
           "linear-gradient(180deg, var(--c-surface) 0%, var(--c-surface-elevated) 100%)",

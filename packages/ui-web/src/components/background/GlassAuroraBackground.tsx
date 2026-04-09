@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useEffect, useRef, useState } from "react";
 import { GlassAuroraBackgroundProps } from "./GlassAuroraBackground.type";
 import {
   PREMIUM_PALETTE,
@@ -24,6 +23,7 @@ const auroraKeyframes = `
   50% { opacity: 0.42; }
   to { transform: rotate(360deg); opacity: 0.28; }
 }
+.bl-aurora-layer { will-change: transform, opacity; }
 `;
 
 export function GlassAuroraBackground({
@@ -82,6 +82,9 @@ export function GlassAuroraBackground({
         height: "100%",
         overflow: "hidden",
         borderRadius: "inherit",
+        boxSizing: "border-box",
+        display: "flex",
+        willChange: "transform",
         background:
           "linear-gradient(160deg, color-mix(in srgb, var(--c-surface-elevated) 82%, transparent), color-mix(in srgb, var(--c-surface) 85%, transparent))",
         border: border ? "1px solid color-mix(in srgb, var(--c-border) 70%, transparent)" : undefined,
@@ -98,13 +101,14 @@ export function GlassAuroraBackground({
         return (
           <div
             key={`aurora-${index}`}
+            className="bl-aurora-layer"
             style={{
               position: "absolute",
               width: "62%",
               height: "62%",
               left: "19%",
               top: "19%",
-              borderRadius: "44% 56% 62% 38% / 38% 52% 48% 62%",
+              borderRadius: "var(--radius-aurora, 44% 56% 62% 38% / 38% 52% 48% 62%)",
               background: `radial-gradient(circle at 35% 35%, ${alphaColor(color, opacity)} 0%, transparent 70%)`,
               filter: `blur(${safeBlur * (0.7 + index * 0.16)}px)`,
               mixBlendMode: blendMode,
@@ -148,7 +152,7 @@ export function GlassAuroraBackground({
           inset: 0,
           pointerEvents: "none",
           background:
-            "linear-gradient(130deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.11) 100%)",
+            "linear-gradient(130deg, var(--c-aurora-highlight-1), var(--c-aurora-highlight-2) 45%, var(--c-aurora-highlight-3) 100%)",
           mixBlendMode: "soft-light",
           zIndex: layers + 2,
         }}

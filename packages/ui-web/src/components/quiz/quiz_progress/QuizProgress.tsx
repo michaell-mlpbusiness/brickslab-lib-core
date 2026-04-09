@@ -15,12 +15,14 @@ const styles = `
   background: var(--c-border);
   overflow: hidden;
   min-width: 120px;
+  box-sizing: border-box;
 }
 [data-bl-qp-bar-fill] {
   height: 100%;
   border-radius: 3px;
   background: var(--color-brand);
   transition: width 0.3s ease;
+  will-change: width;
 }
 /* ── Steps ───────────────────────────────────────────── */
 [data-bl-qp-steps] {
@@ -144,7 +146,7 @@ export function QuizProgress({
   return (
     <>
       <style>{styles}</style>
-      <div data-bl-quiz-progress style={{ width: "100%" }}>
+      <div data-bl-quiz-progress style={{ width: "100%", boxSizing: "border-box" }}>
         <div
           data-bl-qp-bar-track
           role="progressbar"

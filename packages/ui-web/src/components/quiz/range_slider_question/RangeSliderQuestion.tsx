@@ -33,7 +33,7 @@ const styles = `
   border-radius: 50%;
   background: var(--color-brand);
   cursor: pointer;
-  border: 2px solid #FBFBFB;
+  border: 2px solid var(--c-surface, #FBFBFB);
   box-shadow: 0 1px 4px rgba(0,0,0,0.18);
   transition: transform 0.1s ease;
 }
@@ -46,7 +46,7 @@ const styles = `
   border-radius: 50%;
   background: var(--color-brand);
   cursor: pointer;
-  border: 2px solid #FBFBFB;
+  border: 2px solid var(--c-surface, #FBFBFB);
   box-shadow: 0 1px 4px rgba(0,0,0,0.18);
 }
 [data-bl-rs-value] {
@@ -92,6 +92,7 @@ export function RangeSliderQuestion({
               max={max}
               step={step}
               value={lo}
+              aria-label="Minimum value"
               disabled={disabled}
               onChange={(e) => {
                 const next = Math.min(Number(e.target.value), hi);
@@ -105,6 +106,7 @@ export function RangeSliderQuestion({
               max={max}
               step={step}
               value={hi}
+              aria-label="Maximum value"
               disabled={disabled}
               onChange={(e) => {
                 const next = Math.max(Number(e.target.value), lo);
@@ -139,6 +141,7 @@ export function RangeSliderQuestion({
             max={max}
             step={step}
             value={single}
+            aria-label="Value"
             disabled={disabled}
             onChange={(e) => onChange(Number(e.target.value))}
           />

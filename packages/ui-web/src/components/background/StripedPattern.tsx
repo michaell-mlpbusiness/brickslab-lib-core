@@ -55,6 +55,7 @@ export function StripedPattern({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
         background: "linear-gradient(160deg, var(--c-surface), var(--c-surface-elevated))",
       }}
     >
@@ -97,7 +98,7 @@ export function StripedPattern({
           position: "absolute",
           inset: "-15%",
           pointerEvents: "none",
-          background: `linear-gradient(${angle}deg, transparent, ${alphaColor("#CC4A48", safeOpacity * 0.3)}, transparent)`,
+          background: `linear-gradient(${angle}deg, transparent, ${alphaColor("var(--color-brand, #CC4A48)", safeOpacity * 0.3)}, transparent)`,
           mixBlendMode: theme === "light" ? "multiply" : "screen",
           zIndex: layers + 1,
           animation: reduced ? undefined : `bl-stripe-tilt ${10 / safeSpeed}s ease-in-out infinite`,

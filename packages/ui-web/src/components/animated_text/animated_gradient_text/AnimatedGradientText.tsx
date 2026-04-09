@@ -1,7 +1,7 @@
 import React, { ElementType } from "react";
 import type { AnimatedGradientTextProps } from "./AnimatedGradientText.type";
 
-const DEFAULT_STOPS = ["#CC4A48", "#F59E0B", "#4ADE80", "#60A5FA"];
+const DEFAULT_STOPS = ["var(--color-brand, #CC4A48)", "var(--color-warning, #F59E0B)", "var(--color-success, #4ADE80)", "var(--color-info, #60A5FA)"];
 
 const STYLES = `
 @keyframes bl-agt-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
@@ -58,6 +58,7 @@ export function AnimatedGradientText({
           animation: skip
             ? undefined
             : `${ANIM_MAP[animate] ?? "bl-agt-shift"} ${speed}s ease infinite`,
+          willChange: skip ? undefined : "background-position",
           ...style,
         }}
       >

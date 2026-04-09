@@ -21,6 +21,7 @@ const builderStyles = `
   border-bottom: 1px solid var(--c-border);
   background: var(--c-surface-elevated);
   flex-shrink: 0;
+  will-change: transform;
 }
 [data-bl-qb-title-input] {
   flex: 1;
@@ -59,6 +60,7 @@ const builderStyles = `
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
   font-family: inherit;
+  will-change: transform, opacity;
 }
 [data-bl-qb-mode-tab][data-active] {
   background: var(--color-brand);
@@ -187,6 +189,7 @@ const builderStyles = `
   border-radius: 4px;
   flex-shrink: 0;
   transition: color 0.15s ease, background 0.15s ease;
+  will-change: transform;
 }
 [data-bl-qb-icon-btn]:hover {
   color: #CC4A48;
@@ -277,6 +280,7 @@ const builderStyles = `
   font-family: inherit;
   cursor: pointer;
   transition: opacity 0.15s ease;
+  will-change: opacity;
 }
 [data-bl-qb-save-btn]:hover {
   opacity: 0.85;
@@ -315,14 +319,14 @@ function BuilderPanel({
   readOnly?: boolean;
 }) {
   const updateSection = (sIdx: number, patch: Partial<QuizSectionSchema>) => {
-    const sections = schema.sections.map((s, i) =>
+    const sections = schema.sections?.map((s, i) =>
       i === sIdx ? { ...s, ...patch } : s
     );
     onChange({ ...schema, sections });
   };
 
   const removeSection = (sIdx: number) => {
-    onChange({ ...schema, sections: schema.sections.filter((_, i) => i !== sIdx) });
+    onChange({ ...schema, sections: schema.sections?.filter((_, i) => i !== sIdx) || [] });
   };
 
   const addSection = () => {
@@ -331,13 +335,13 @@ function BuilderPanel({
       title: "New section",
       questions: [],
     };
-    onChange({ ...schema, sections: [...schema.sections, newSection] });
+    onChange({ ...schema, sections: [...(schema.sections || []), newSection] });
   };
 
   const updateQuestion = (sIdx: number, qIdx: number, patch: Partial<Question>) => {
-    const questions = schema.sections[sIdx].questions.map((q, i) =>
+    const questions = schema.sections[sIdx]?.questions?.map((q, i) =>
       i === qIdx ? { ...q, ...patch } : q
-    );
+    ) || [];
     updateSection(sIdx, { questions });
   };
 
@@ -347,22 +351,23 @@ function BuilderPanel({
       type: "single",
       label: "New question",
     };
-    updateSection(sIdx, { questions: [...schema.sections[sIdx].questions, newQ] });
+    updateSection(sIdx, { questions: [...(schema.sections[sIdx]?.questions || []), newQ] });
   };
 
   const removeQuestion = (sIdx: number, qIdx: number) => {
     updateSection(sIdx, {
-      questions: schema.sections[sIdx].questions.filter((_, i) => i !== qIdx),
+      questions: schema.sections[sIdx]?.questions?.filter((_, i) => i !== qIdx) || [],
     });
   };
 
   return (
-    <div data-bl-qb-panel>
-      {schema.sections.map((section, sIdx) => (
+    <div data-bl-qb-panel style={{ display: "flex", flexDirection: "column" }}>
+      {(schema.sections || []).map((section, sIdx) => (
         <div key={section.id} data-bl-qb-section>
           <div data-bl-qb-section-header>
             <input
               data-bl-qb-section-title-input
+              aria-label="Section title"
               value={section.title}
               readOnly={readOnly}
               placeholder="Section title"
@@ -381,7 +386,7 @@ function BuilderPanel({
             )}
           </div>
           <div data-bl-qb-section-body>
-            {section.questions.map((q, qIdx) => (
+            {(section.questions || []).map((q, qIdx) => (
               <div key={q.id} data-bl-qb-question>
                 <div data-bl-qb-question-drag aria-hidden>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -397,6 +402,7 @@ function BuilderPanel({
                   <div data-bl-qb-question-row>
                     <input
                       data-bl-qb-question-label-input
+                      aria-label="Question label"
                       value={q.label}
                       readOnly={readOnly}
                       placeholder="Question label"
@@ -454,13 +460,13 @@ function BuilderPanel({
 
 function PreviewPanel({ schema }: { schema: QuizSchema }) {
   return (
-    <div data-bl-qb-panel data-side="right">
-      {schema.sections.map((section) => (
+    <div data-bl-qb-panel data-side="right" style={{ display: "flex", flexDirection: "column" }}>
+      {(schema.sections || []).map((section) => (
         <div key={section.id}>
           <div style={{ fontWeight: "var(--fontweight-semibold)", fontSize: "var(--fontsize-sm)", color: "var(--color-fg)", marginBottom: 8 }}>
             {section.title}
           </div>
-          {section.questions.map((q) => (
+          {(section.questions || []).map((q) => (
             <div key={q.id} data-bl-qb-preview-q style={{ marginBottom: 8 }}>
               <span data-bl-qb-preview-label>{q.label}</span>
               <span data-bl-qb-preview-type>{q.type}</span>
@@ -489,7 +495,7 @@ export function QuizBuilder({
   const [currentMode, setCurrentMode] = React.useState<QuizBuilderMode>(mode);
   const [saveState, setSaveState] = React.useState<"idle" | "saving">("idle");
 
-  const totalQuestions = value.sections.reduce((acc, s) => acc + s.questions.length, 0);
+  const totalQuestions = (value.sections || []).reduce((acc, s) => acc + (s.questions || []).length, 0);
   const validation = validate ? validate(value) : null;
 
   const handleSave = async () => {
@@ -519,6 +525,7 @@ export function QuizBuilder({
         <div data-bl-qb-toolbar>
           <input
             data-bl-qb-title-input
+            aria-label="Quiz title"
             value={value.title}
             readOnly={readOnly}
             placeholder="Quiz title"
@@ -562,7 +569,7 @@ export function QuizBuilder({
         {/* Status bar */}
         <div data-bl-qb-status-bar>
           <span>
-            {value.sections.length} section{value.sections.length !== 1 ? "s" : ""} · {totalQuestions} question{totalQuestions !== 1 ? "s" : ""}
+            {(value.sections || []).length} section{(value.sections || []).length !== 1 ? "s" : ""} · {totalQuestions} question{totalQuestions !== 1 ? "s" : ""}
           </span>
           {validation && !validation.valid && (
             <span style={{ color: "#CC4A48" }}>

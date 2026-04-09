@@ -92,6 +92,7 @@ const styles = `
   text-decoration: none;
   color: inherit;
   transition: border-color 0.15s ease;
+  will-change: border-color;
 }
 [data-bl-qr-rec]:hover {
   border-color: var(--color-brand);
@@ -127,6 +128,7 @@ const styles = `
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: border-color, background;
   align-self: flex-start;
 }
 [data-bl-qr-retake]:hover {
@@ -169,7 +171,7 @@ export function QuizResultSummary({
                 <circle
                   cx={RING_SIZE / 2} cy={RING_SIZE / 2} r={R}
                   fill="none"
-                  stroke={pct >= 70 ? "#4ADE80" : pct >= 40 ? "#F59E0B" : "#CC4A48"}
+                  stroke={pct >= 70 ? "var(--color-success, #4ADE80)" : pct >= 40 ? "var(--color-warning, #F59E0B)" : "var(--color-error, #CC4A48)"}
                   strokeWidth={STROKE}
                   strokeLinecap="round"
                   strokeDasharray={CIRC}
@@ -210,7 +212,7 @@ export function QuizResultSummary({
           <div>
             <div data-bl-qr-section-title style={{ marginBottom: 8 }}>Achievements</div>
             <div data-bl-qr-badges>
-              {result.badges.map((b) => (
+              {result.badges?.map((b) => (
                 <div key={b.id} data-bl-qr-badge>
                   {b.icon && <span>{b.icon}</span>}
                   {b.label}
@@ -225,7 +227,7 @@ export function QuizResultSummary({
           <div>
             <div data-bl-qr-section-title style={{ marginBottom: 8 }}>Recommendations</div>
             <div data-bl-qr-recs>
-              {result.recommendations.map((rec, i) => (
+              {result.recommendations?.map((rec, i) => (
                 rec.href ? (
                   <a key={i} data-bl-qr-rec href={rec.href} target="_blank" rel="noopener noreferrer">
                     <span data-bl-qr-rec-label>{rec.label}</span>

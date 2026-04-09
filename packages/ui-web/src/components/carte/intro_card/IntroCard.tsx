@@ -6,11 +6,13 @@ export function IntroCard({
   description,
   highlight,
   cta,
-  background = "var(--gradient-brand, linear-gradient(135deg, var(--color-brand) 0%, rgba(204, 74, 72, 0.8) 100%))",
+  background = "var(--gradient-brand, linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-faded) 100%))",
 }: IntroCardProps) {
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "column",
         borderRadius: "var(--radius-lg, 12px)",
         padding: "var(--space-4) var(--space-4)",
         background,
@@ -69,6 +71,7 @@ export function IntroCard({
             fontWeight: "600",
             opacity: 0.9,
             transition: "opacity 0.2s",
+            willChange: "opacity",
           }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLElement).style.opacity = "1";

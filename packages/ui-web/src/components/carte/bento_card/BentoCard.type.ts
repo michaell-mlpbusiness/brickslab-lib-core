@@ -18,4 +18,5 @@ export interface BentoCardProps {
   reducedMotion?: "auto" | "always" | "never";
   colSpan?: number;
   rowSpan?: number;
+  isReducedMotion?: boolean;
 }

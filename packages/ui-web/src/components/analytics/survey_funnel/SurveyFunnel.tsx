@@ -46,20 +46,25 @@ const styles = `
   background: var(--c-border);
   overflow: hidden;
   position: relative;
+  box-sizing: border-box;
 }
 [data-bl-sf-fill-started] {
   position: absolute;
   top: 0; left: 0; bottom: 0;
   border-radius: 4px;
   background: color-mix(in srgb, var(--color-brand) 30%, transparent);
-  transition: width 0.4s ease;
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  will-change: transform;
 }
 [data-bl-sf-fill-completed] {
   position: absolute;
   top: 0; left: 0; bottom: 0;
   border-radius: 4px;
   background: var(--color-brand);
-  transition: width 0.4s ease;
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  will-change: transform;
 }
 [data-bl-sf-drop] {
   display: flex;
@@ -111,9 +116,9 @@ const styles = `
 `;
 
 function rateColor(rate: number): string {
-  if (rate >= 0.75) return "#4ADE80";
-  if (rate >= 0.5) return "#F59E0B";
-  return "#CC4A48";
+  if (rate >= 0.75) return "var(--color-success, #4ADE80)";
+  if (rate >= 0.5) return "var(--color-warning, #F59E0B)";
+  return "var(--color-error, #CC4A48)";
 }
 
 export function SurveyFunnel({ steps, mode = "bar", showRates = true }: SurveyFunnelProps) {
@@ -134,7 +139,7 @@ export function SurveyFunnel({ steps, mode = "bar", showRates = true }: SurveyFu
               <div key={step.id} data-bl-sf-step-col>
                 <span data-bl-sf-step-count>{step.completed.toLocaleString()}</span>
                 {showRates && (
-                  <span style={{ fontSize: 10, fontWeight: 700, color }}>{Math.round(rate * 100)}%</span>
+                  <span style={{ fontSize: "var(--fontsize-xs)", fontWeight: 700, color }}>{Math.round(rate * 100)}%</span>
                 )}
                 <div data-bl-sf-step-bar style={{ height: h, background: color }} />
                 <span data-bl-sf-step-label>{step.label}</span>
@@ -180,8 +185,8 @@ export function SurveyFunnel({ steps, mode = "bar", showRates = true }: SurveyFu
                   </div>
                 </div>
                 <div data-bl-sf-track>
-                  <div data-bl-sf-fill-started style={{ width: `${startedPct}%` }} />
-                  <div data-bl-sf-fill-completed style={{ width: `${completedPct}%` }} />
+                  <div data-bl-sf-fill-started style={{ transform: `scaleX(${startedPct / 100})` }} />
+                  <div data-bl-sf-fill-completed style={{ transform: `scaleX(${completedPct / 100})` }} />
                 </div>
               </div>
             </React.Fragment>

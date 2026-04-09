@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { useEffect, useRef } from "react";
 import { NoiseMeshBackgroundProps } from "./NoiseMeshBackground.type";
 import {
   PREMIUM_PALETTE,
@@ -24,6 +23,7 @@ const noiseMeshKeyframes = `
   0%, 100% { filter: brightness(0.94) saturate(1); }
   50% { filter: brightness(1.05) saturate(1.08); }
 }
+.bl-noise-canvas { will-change: transform; }
 `;
 
 export function NoiseMeshBackground({
@@ -146,7 +146,8 @@ export function NoiseMeshBackground({
         for (let i = 0; i < sampleCount; i += 1) {
           const x = Math.random() * rect.width;
           const y = Math.random() * rect.height;
-          ctx.fillStyle = `rgba(255,255,255,${Math.random() * grainAlpha})`;
+          const noiseColor = alphaColor("var(--c-noise)", Math.random() * grainAlpha);
+          ctx.fillStyle = noiseColor;
           ctx.fillRect(x, y, pixel, pixel);
         }
       }
@@ -188,11 +189,25 @@ export function NoiseMeshBackground({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
+        display: "flex",
+        willChange: "transform",
+        backgroundColor: "var(--c-noise-bg, transparent)",
         animation: shouldAnimate ? `bl-noise-breathe ${9 / safeSpeed}s ease-in-out infinite` : undefined,
       }}
     >
       <style>{noiseMeshKeyframes}</style>
-      <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} />
+      <canvas 
+        ref={canvasRef} 
+        style={{ 
+          position: "absolute", 
+          inset: 0, 
+          width: "100%", 
+          height: "100%", 
+          display: "block",
+          willChange: "transform",
+        }} 
+      />
       {maskOverlay && <div style={{ ...maskOverlay, zIndex: 1 }} />}
     </div>
   );

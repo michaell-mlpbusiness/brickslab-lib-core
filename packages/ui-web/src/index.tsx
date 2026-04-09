@@ -270,3 +270,5 @@ export * from "./components/dashboard/TestResultsCard";
 export * from "./components/dashboard/TestResultsCard.type";
 export * from "./components/dashboard/DashboardHero";
 export * from "./components/dashboard/DashboardHero.type";
+export * from "./components/dashboard/UserTable";
+export * from "./components/dashboard/UserTable.type";

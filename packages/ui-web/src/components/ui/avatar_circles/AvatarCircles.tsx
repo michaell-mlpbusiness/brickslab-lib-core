@@ -19,6 +19,7 @@ export function AvatarCircles({
         display: "flex",
         alignItems: "center",
         gap: "var(--space-2)",
+        boxSizing: "border-box",
       }}
       className={className}
     >
@@ -94,7 +95,7 @@ export function AvatarCircles({
               marginLeft: `-${overlap}px`,
               borderRadius: "50%",
               backgroundColor: "var(--color-brand)",
-              color: "#FBFBFB",
+              color: "var(--c-surface, #FBFBFB)",
               fontWeight: "var(--fontweight-semibold)",
               fontSize: `${size * 0.4}px`,
               border: "2px solid var(--c-surface)",

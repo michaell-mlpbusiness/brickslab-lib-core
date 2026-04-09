@@ -12,6 +12,7 @@ export interface BurgerMenuItemType {
 export interface BurgerMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpen?: () => void;
   sections: BurgerMenuSection[];
   activePath?: string;
   width?: number;

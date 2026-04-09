@@ -78,6 +78,7 @@ export function WarpBackground({
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        boxSizing: "border-box",
         background:
           "radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--c-surface-elevated) 80%, transparent), transparent 40%), linear-gradient(135deg, var(--c-surface) 0%, var(--c-surface-elevated) 100%)",
       }}
@@ -98,7 +99,7 @@ export function WarpBackground({
             style={{
               position: "absolute",
               inset: "-22%",
-              borderRadius: "46% 54% 61% 39% / 44% 52% 48% 56%",
+              borderRadius: "var(--radius-xl, 46% 54% 61% 39% / 44% 52% 48% 56%)",
               transformOrigin: "center",
               background: `radial-gradient(circle at ${originX}% ${originY}%, ${alphaColor(
                 paletteColor,
@@ -107,6 +108,7 @@ export function WarpBackground({
               filter: `blur(${quality === "low" ? 24 : quality === "medium" ? 42 : 70}px)`,
               mixBlendMode: blendMode,
               pointerEvents: "none",
+              willChange: "transform, opacity",
               zIndex: index + 1,
               animation: reduced ? undefined : `bl-warp-float ${(6 + index * 1.1) / safeSpeed}s cubic-bezier(0.22, 1, 0.36, 1) infinite`,
               ["--tx" as string]: tx,
@@ -132,6 +134,7 @@ export function WarpBackground({
           mixBlendMode: blendMode,
           filter: `blur(${quality === "low" ? 16 : 26}px)`,
           opacity: reduced ? 0.4 : 0.75,
+          willChange: "transform, opacity",
           zIndex: layers + 1,
           animation: reduced ? undefined : `bl-warp-spin ${36 / safeSpeed}s linear infinite`,
         }}

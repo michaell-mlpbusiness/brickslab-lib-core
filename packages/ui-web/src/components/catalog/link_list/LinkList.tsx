@@ -3,12 +3,12 @@ import { LinkListProps } from "./LinkList.type";
 
 export function LinkList({ links, title }: LinkListProps) {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {title && (
         <div
           style={{
             fontWeight: 600,
-            fontSize: 14,
+            fontSize: "var(--fontsize-sm)",
             color: "var(--color-fg)",
             marginBottom: 8,
           }}
@@ -16,7 +16,7 @@ export function LinkList({ links, title }: LinkListProps) {
           {title}
         </div>
       )}
-      <div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {links.map((item, index) => (
           <div
             key={item.href}
@@ -31,7 +31,7 @@ export function LinkList({ links, title }: LinkListProps) {
               style={{
                 fontWeight: 500,
                 color: "var(--color-brand)",
-                fontSize: 14,
+                fontSize: "var(--fontsize-sm)",
                 textDecoration: "none",
                 display: "block",
               }}
@@ -41,7 +41,7 @@ export function LinkList({ links, title }: LinkListProps) {
             {item.description && (
               <div
                 style={{
-                  fontSize: 12,
+                  fontSize: "var(--fontsize-xs)",
                   color: "var(--color-muted)",
                   marginTop: 2,
                 }}

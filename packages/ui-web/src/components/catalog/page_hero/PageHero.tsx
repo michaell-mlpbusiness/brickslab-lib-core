@@ -18,7 +18,7 @@ export function PageHero({ title, subtitle, eyebrow, stats, children }: PageHero
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at -5% -10%, rgba(204,74,72,0.1) 0%, transparent 55%), radial-gradient(ellipse at 105% 115%, rgba(204,74,72,0.04) 0%, transparent 45%)",
+            "radial-gradient(ellipse at -5% -10%, var(--c-mesh-brand-fade, rgba(204,74,72,0.1)) 0%, transparent 55%), radial-gradient(ellipse at 105% 115%, var(--c-mesh-brand-subtle, rgba(204,74,72,0.04)) 0%, transparent 45%)",
           pointerEvents: "none",
         }}
       />
@@ -61,7 +61,7 @@ export function PageHero({ title, subtitle, eyebrow, stats, children }: PageHero
             style={{
               display: "inline-flex",
               alignItems: "center",
-              fontSize: 11,
+              fontSize: "var(--fontsize-2xs, 11px)",
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.1em",
@@ -69,7 +69,7 @@ export function PageHero({ title, subtitle, eyebrow, stats, children }: PageHero
               border: "1px solid var(--c-brand-border)",
               background: "var(--c-brand-subtle)",
               padding: "3px 12px",
-              borderRadius: 20,
+              borderRadius: "var(--radius-full, 20px)",
               marginBottom: 18,
             }}
           >
@@ -130,7 +130,7 @@ export function PageHero({ title, subtitle, eyebrow, stats, children }: PageHero
                 </span>
                 <span
                   style={{
-                    fontSize: 12,
+                    fontSize: "var(--fontsize-sm, 12px)",
                     color: "var(--color-muted)",
                     fontWeight: 500,
                   }}

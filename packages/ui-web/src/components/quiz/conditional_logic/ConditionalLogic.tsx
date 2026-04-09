@@ -88,6 +88,7 @@ const clStyles = `
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.15s ease, background 0.15s ease;
+  will-change: transform;
 }
 [data-bl-cl-btn]:hover {
   border-color: var(--color-brand);
@@ -114,6 +115,7 @@ const clStyles = `
   transition: border-color 0.15s ease, color 0.15s ease;
   width: 100%;
   text-align: left;
+  will-change: transform;
 }
 [data-bl-cl-add]:hover {
   border-color: var(--color-brand);
@@ -162,9 +164,9 @@ function RuleRow({
   onRemove: () => void;
 }) {
   const updateCondition = (idx: number, patch: Partial<LogicCondition>) => {
-    const conditions = rule.conditions.map((c, i) =>
+    const conditions = rule.conditions?.map((c, i) =>
       i === idx ? { ...c, ...patch } : c
-    );
+    ) || [];
     onUpdate({ ...rule, conditions });
   };
 
@@ -172,14 +174,14 @@ function RuleRow({
     onUpdate({
       ...rule,
       conditions: [
-        ...rule.conditions,
+        ...(rule.conditions || []),
         { questionId: questionsIndex[0]?.id ?? "", operator: "eq" },
       ],
     });
   };
 
   const removeCondition = (idx: number) => {
-    onUpdate({ ...rule, conditions: rule.conditions.filter((_, i) => i !== idx) });
+    onUpdate({ ...rule, conditions: rule.conditions?.filter((_, i) => i !== idx) || [] });
   };
 
   return (
@@ -189,7 +191,7 @@ function RuleRow({
         <button data-bl-cl-btn data-danger onClick={onRemove}>Remove</button>
       </div>
       <div data-bl-cl-rule-body>
-        {rule.conditions.map((cond, idx) => (
+        {(rule.conditions || []).map((cond, idx) => (
           <React.Fragment key={idx}>
             {idx > 0 && (
               <div data-bl-cl-divider>
@@ -232,12 +234,13 @@ function RuleRow({
                 <input
                   data-bl-cl-input
                   type="text"
+                  aria-label="Condition value"
                   placeholder="value"
                   value={String(cond.value ?? "")}
                   onChange={(e) => updateCondition(idx, { value: e.target.value })}
                 />
               )}
-              {rule.conditions.length > 1 && (
+              {rule.conditions?.length > 1 && (
                 <button
                   data-bl-cl-btn
                   data-danger
@@ -279,6 +282,7 @@ function RuleRow({
             <input
               data-bl-cl-input
               type="number"
+              aria-label="Score points"
               placeholder="points"
               value={rule.scoreValue ?? ""}
               onChange={(e) => onUpdate({ ...rule, scoreValue: Number(e.target.value) })}
@@ -294,27 +298,27 @@ export function ConditionalLogic({ rules, onChange, questionsIndex }: Conditiona
   const addRule = () => {
     const newRule: LogicRule = {
       id: uid(),
-      conditions: [{ questionId: questionsIndex[0]?.id ?? "", operator: "eq" }],
+      conditions: [{ questionId: questionsIndex?.[0]?.id ?? "", operator: "eq" }],
       conditionMode: "all",
       action: "show",
-      targetId: questionsIndex[1]?.id,
+      targetId: questionsIndex?.[1]?.id,
     };
     onChange([...rules, newRule]);
   };
 
   const updateRule = (idx: number, updated: LogicRule) => {
-    onChange(rules.map((r, i) => (i === idx ? updated : r)));
+    onChange((rules || []).map((r, i) => (i === idx ? updated : r)));
   };
 
   const removeRule = (idx: number) => {
-    onChange(rules.filter((_, i) => i !== idx));
+    onChange((rules || []).filter((_, i) => i !== idx));
   };
 
   return (
     <>
       <style>{clStyles}</style>
-      <div data-bl-cl>
-        {rules.map((rule, idx) => (
+      <div data-bl-cl style={{ display: "flex", flexDirection: "column" }}>
+        {(rules || []).map((rule, idx) => (
           <RuleRow
             key={rule.id}
             rule={rule}
